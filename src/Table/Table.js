@@ -1,8 +1,24 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {forEach} from "react-bootstrap/ElementChildren";
 
 export default function Table() {
+    const [points, setPoints] = useState([])
+    const [count, setCount] = useState(0)
+
+
+    useEffect(()=>{
+        fetch("http://localhost:21900/getAll")
+            .then(res=>res.json())
+            .then((result)=>{
+                    setPoints(result);
+                }
+            )
+        // setPoints([{x: 1, y: 2, r: 4, hit: "true" }, {x: 2, y: 2, r: 4, hit: "false" }])
+    },[])
     return (
         <div>
+
+
             <div className="container">
                 <div className="py-4">
                     <table className="table border shadow">
@@ -16,30 +32,21 @@ export default function Table() {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@twitter</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            <td>@twitter</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colSpan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                            <td>@twitter</td>
-                        </tr>
+                        {points.map((point) =>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>{point.x}</td>
+                                    <td>{point.y}</td>
+                                    <td>{point.r}</td>
+                                    <td>{point.hit}</td>
+                                </tr>
+                            )}
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
     )
 }

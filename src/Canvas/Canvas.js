@@ -34,73 +34,70 @@ function Canvas() {
 
         ctx.fillStyle = '#3399ff'; // Задаём чёрный цвет для линий
 // ctx.fillRect(10, 10, 100, 100);
-        ctx.lineWidth = 2.0; // Ширина линии
+        ctx.lineWidth = 1.0; // Ширина линии
         ctx.beginPath(); // Запускает путь
-        ctx.moveTo(255, 10); // Рисуем ось
-        ctx.lineTo(255, 490);
-        ctx.moveTo(10, 255);
-        ctx.lineTo(490, 255);
+        ctx.moveTo(127.5, 5); // Рисуем ось
+        ctx.lineTo(127.5, 245);
+        ctx.moveTo(5, 127.5);
+        ctx.lineTo(245, 127.5);
 
-        ctx.fillRect(255, 255, 195, -100) // Рисуем и закршиваем прямоугльник
+        ctx.fillRect(127.5, 127.5, 97.5, -50) // Рисуем и закршиваем прямоугльник
         ctx.stroke(); // Делаем контур
 
         ctx.beginPath();
-        ctx.moveTo(450, 255); // Рисуем и закршиваем треугольник
-        ctx.lineTo(255, 445);
-        ctx.lineTo(255, 255);
-        ctx.lineTo(450, 255);
+        ctx.moveTo(225, 127.5); // Рисуем и закршиваем треугольник
+        ctx.lineTo(127.5, 222.5);
+        ctx.lineTo(127.5, 127.5);
+        ctx.lineTo(225, 127.5);
         ctx.fill();
         ctx.stroke();
 
 
         ctx.beginPath();
-        ctx.arc(255, 255, 200, Math.PI, -Math.PI / 2) // Рисуем и закршиваем четверть круга
-        ctx.moveTo(255, 55);
-        ctx.lineTo(255, 255);
-        ctx.lineTo(55, 255);
+        ctx.arc(127.5, 127.5, 100, Math.PI, -Math.PI / 2) // Рисуем и закршиваем четверть круга
+        ctx.moveTo(127.5, 27.5);
+        ctx.lineTo(127.5, 127.5);
+        ctx.lineTo(27.5, 127.5);
 
         ctx.fill();
         ctx.stroke();
 
 
-        ctx.moveTo(250, 55); // Вставляем R на график
-        ctx.lineTo(260, 55);
+        ctx.moveTo(125, 27.5); // Вставляем R на график
+        ctx.lineTo(130, 27.5);
         ctx.fillStyle = 'black'; // Задаём чёрный цвет для линий
-        ctx.font = "30px Verdana";
-        ctx.fillText("R", 260, 50)
-        ctx.moveTo(450, 250);
-        ctx.lineTo(450, 260);
-        ctx.font = "30px Verdana";
-        ctx.fillText("R", 455, 250)
-        ctx.moveTo(250, 445);
-        ctx.lineTo(260, 445);
-        ctx.fillText("-R", 270, 460)
-        ctx.moveTo(55, 250);
-        ctx.lineTo(55, 260);
-        ctx.fillText("-R", 15, 250)
+        ctx.font = "15px Verdana";
+        ctx.fillText("R", 130, 27.5)
+        ctx.moveTo(225, 125);
+        ctx.lineTo(225, 130);
+        ctx.font = "15px Verdana";
+        ctx.fillText("R", 227.5, 125)
+        ctx.moveTo(125, 222.5);
+        ctx.lineTo(130, 222.5);
+        ctx.fillText("-R", 145, 230)
+        ctx.moveTo(27.5, 125);
+        ctx.lineTo(27.5, 130);
+        ctx.fillText("-R", 7.5, 125)
         ctx.stroke(); // Делаем контур
     }
 
 
     function clickCanvas(e) {
         let r = document.getElementById("RInput").value;
-        //console.log(r)
-        //     let x = e.pageX;
-        //     let y = e.pageY;
-        //     console.log(x)
-        //     console.log(y)
+
         let rect = e.target.getBoundingClientRect();
-        let x = e.clientX - rect.left; //x position within the element.
-        let y = e.clientY - rect.top;  //y position within the element.
+        let x = (e.clientX - rect.left); //x position within the element.
+        let y = (e.clientY - rect.top) ;  //y position within the element.
         console.log("Left? : " + x + " ; Top? : " + y + ".");
+        ctx.beginPath();
+        ctx.fillRect(x+20, y+40, 2, 2);
+        ctx.stroke();
     }
-        // document.addEventListener('DOMContentLoaded', () => {
-        //     document.getElementById("canvas").addEventListener('click', pos);
-        // })
+
 
     return (
         <div className="App">
-            <canvas id="canvas" onClick={clickCanvas} ref={canvas} width={500} height={500}></canvas>
+            <canvas id="canvas" onClick={clickCanvas} ref={canvas} width={250} height={250}></canvas>
         </div>
     );
 }

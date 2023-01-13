@@ -8,14 +8,15 @@ import "./Canvas/styleForCanvas.css"
 import {BrowserRouter as Router, Routes, Route}
     from 'react-router-dom';
 import Home from "./home";
-import axios from 'axios'
+import axios, {post, request} from 'axios'
 import swal from 'sweetalert';
+import {Rectangle} from "./Canvas/TestCanvas";
 
 
 function App() {
     const [value, setValue] = useState("");
     const [x, setX] = useState(0);
-    const [y, setY] = useState("");
+    const [y, setY] = useState(0);
     const [r, setR] = useState(0);
     // function sendData() {
     //     let data = {userName: "awdaw", password: "awdawd"};
@@ -37,29 +38,39 @@ function App() {
     //     })
     // }
 
-    function validateInput(){
-        if (y>3 || y<-3){
-            swal("incorrect data", "", "error").
-            then((value) => {
+    function validateInput() {
+        if (y > 3 || y < -3) {
+            swal("incorrect data", "", "error").then((value) => {
                 swal("Data must be:",
                     `X: (-3 ... 5)
                 Y: (-3 ... 3)
                 Z: (-3 ... 5)`);
             });
             return false
-        }
-        else {
+        } else {
             return true
         }
     }
 
     const onSubmit = (e) => {
         // e.preventDefault()
-        if (validateInput()) {
-            console.log("Как я здесь")
-            let point = {x, y, r}
-            axios.post("http://localhost:21900/greeting", point).then(r => console.log("ok"))
-        }
+        let point = {x, y, r}
+        console.log(point)
+
+        fetch("http://localhost:21900/", {
+            method: "POST",
+            headers: {
+                // "Access-Control-Allow-Headers": "Content-Type",
+                // "Access-Control-Allow-Method": "GET",
+                // 'Content-Type': 'application/json',
+                // "Access-Control-Allow-Origin": "true",
+                // "Transfer-Encoding": "chunked",
+                "Content-Type": 'application/json'
+                // "Content-Type": 'text/plain'
+            },
+            body: JSON.stringify(point)
+        }).then(r => console.log(r.headers))
+        console.log("ok")
     }
 
 
@@ -72,10 +83,9 @@ function App() {
     function onChangeY(e) {
         // console.log(e.target.value)
         setY(e.target.value)
-        if (y>=3 || y<=-3){
+        if (y >= 3 || y <= -3) {
 
-            swal("incorrect data", "", "error").
-            then((value) => {
+            swal("incorrect data", "", "error").then((value) => {
                 swal("Data must be:",
                     `X: (-3 ... 5)
                 Y: (-3 ... 3)
@@ -95,42 +105,43 @@ function App() {
         <div className="App">
 
             <Navbar/>
-            <form onSubmit={(e) => onSubmit(e)}>
-                <div className="row g-2">
-                    <div className="col-6">
-                        <div id="canvas" className="p-3"><Canvas/></div>
-                    </div>
-                    <div className="col-6">
-                        <div className="p-3">
-                            <label htmlFor="X:">X:</label>
-                            <input type="number" disabled={true} id="XInput" value={x}/>
-                            <p/>
-                            <input type="range" id="XRange" name="X"
-                                   min="-3" max="5" onChange={onChangeX} value={x}/>
-                            <p/>
-                            <label htmlFor="R:">Y: {value}</label>
-                            <p/>
-                            <input name="Y" type={"number"} value={y} onChange={onChangeY}
-                                placeholder="(-3 ... 3)"
-                            />
-
-                            <p/>
-                            <label htmlFor="R:">R:</label>
-                            <input type="number" disabled={true} id="RInput" value={r}/>
-                            <p/>
-                            <input type="range" id="RRange" name="R"
-                                   min="-3" max="5" onChange={onChangeR} value={r}/>
-
-
-                            <p/>
-                            <button type="submit" className="btn btn-primary" onClick={validateInput}
-                            >Submit
-                            </button>
-                        </div>
-                    </div>
-                    <Table/>
+            {/*<form onSubmit={(e) => onSubmit(e)}>*/}
+            <div className="row g-2">
+                <div className="col-6">
+                    <div id="canvas" className="p-3"><Canvas/></div>
+                    {/*<div id="canvas" className="p-3"><Rectangle/></div>*/}
                 </div>
-            </form>
+                <div className="col-6">
+                    <div className="p-3">
+                        <label htmlFor="X:">X:</label>
+                        <input type="number" disabled={true} id="XInput" value={x}/>
+                        <p/>
+                        <input type="range" id="XRange" name="X"
+                               min="-3" max="5" onChange={onChangeX} value={x}/>
+                        <p/>
+                        <label htmlFor="R:">Y: {value}</label>
+                        <p/>
+                        <input name="Y" type={"number"} value={y} onChange={onChangeY}
+                               placeholder="(-3 ... 3)"
+                        />
+
+                        <p/>
+                        <label htmlFor="R:">R:</label>
+                        <input type="number" disabled={true} id="RInput" value={r}/>
+                        <p/>
+                        <input type="range" id="RRange" name="R"
+                               min="-3" max="5" onChange={onChangeR} value={r}/>
+
+
+                        <p/>
+                        <button type="submit" className="btn btn-primary" onClick={onSubmit}
+                        >Submit
+                        </button>
+                    </div>
+                </div>
+                <Table/>
+            </div>
+            {/*</form>*/}
         </div>
 
     );
