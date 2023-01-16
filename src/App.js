@@ -1,43 +1,25 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Navbar from "./Navibar/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css"
 import Table from "./Table/Table";
 import "./styleForInput.css"
 import Canvas from "./Canvas/Canvas";
 import "./Canvas/styleForCanvas.css"
-import {BrowserRouter as Router, Routes, Route}
-    from 'react-router-dom';
-import Home from "./home";
-import axios, {post, request} from 'axios'
 import swal from 'sweetalert';
-import {Rectangle} from "./Canvas/TestCanvas";
 
 
-function App() {
+// function giveToParent() {
+//     props.onSetParam(321)
+// }
+
+
+function App(props) {
     const [value, setValue] = useState("");
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [r, setR] = useState(0);
-    // function sendData() {
-    //     let data = {userName: "awdaw", password: "awdawd"};
-    //     window.alert("sending")
-    //     fetch(`http://localhost:21900/greeting`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(data)
-    //
-    //     }).then((res) => {
-    //         window.alert("accept")
-    //         if (res.ok) {
-    //             window.alert("ok")
-    //         } else {
-    //             window.alert("bad")
-    //         }
-    //     })
-    // }
-
+    let num = props.number;
+    console.log(num)
     function validateInput() {
         if (y > 3 || y < -3) {
             swal("incorrect data", "", "error").then((value) => {
@@ -54,19 +36,16 @@ function App() {
 
     const onSubmit = (e) => {
         // e.preventDefault()
-        let point = {x, y, r}
+        let hit = false;
+        let point = {x, y, r, hit}
         console.log(point)
 
         fetch("http://localhost:21900/", {
+            // mode: "no-cors",
             method: "POST",
             headers: {
-                // "Access-Control-Allow-Headers": "Content-Type",
-                // "Access-Control-Allow-Method": "GET",
-                // 'Content-Type': 'application/json',
-                // "Access-Control-Allow-Origin": "true",
-                // "Transfer-Encoding": "chunked",
-                "Content-Type": 'application/json'
-                // "Content-Type": 'text/plain'
+                "Content-Type": 'application/json',
+                "Authorization": "Basic " + btoa("user:gg")
             },
             body: JSON.stringify(point)
         }).then(r => console.log(r.headers))
@@ -113,6 +92,7 @@ function App() {
                 </div>
                 <div className="col-6">
                     <div className="p-3">
+                        <div>{}</div>
                         <label htmlFor="X:">X:</label>
                         <input type="number" disabled={true} id="XInput" value={x}/>
                         <p/>

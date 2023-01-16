@@ -1,58 +1,91 @@
-import React, {useState} from 'react';
+import React, {createContext, useContext, useState} from 'react';
 import Nav from 'react-bootstrap/Nav';
 import NavMenu from 'react-bootstrap/Navbar';
 import NavLink from 'react-bootstrap/NavLink';
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useNavigation} from "react-router-dom";
 import { redirect } from 'react-router'
 import axios from "axios";
 import swal from "sweetalert";
 
 
-function redirectHome(){
-    redirect("/home")
-}
 
-
-
-const Home = () => {
-
+const Home = ({ parentCallback }) => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const userNameContext = createContext(userName)
+    const passwordContext = createContext(password)
 
+    parentCallback = 3
     const onSubmit = (e) => {
         // e.preventDefault()
         let auth = {userName, password}
+        let pointTest = {x:0, y:0, r:0, hit:false}
         console.log(auth)
 
-        axios.get("http://localhost:21900/login", {
+        fetch("http://localhost:21900/", {
+            // mode: "no-cors",
+            method: "POST",
             headers: {
-                // "Access-Control-Allow-Headers": "Content-Type",
-                // "Access-Control-Allow-Method": "GET",
-                // 'Content-Type': 'application/json',
-                // "Access-Control-Allow-Origin": "true",
-                // "Transfer-Encoding": "chunked",
-                // "Content-Type": 'application/json'
-                "Content-Type": 'text/plain'
+                "Content-Type": 'application/json',
+                "Authorization": "Basic " + btoa(userName + ":" + password)
             },
-            auth
-        })  .then((r) => {
+            body: JSON.stringify(pointTest)
+        }).then((r) => {
+            console.log(r.status)
             if (r.status === 200) {
-                redirect("/home")
-            }
-            else {
-                swal( "Wrong password")
+                navigate("/home")
+            } else {
+                // swal("Wrong password")
+                swal({
+                    text: 'Wrong password, but you can search for a movie!',
+                    content: "input",
+                    button: {
+                        text: "Search!",
+                        closeModal: false,
+                    },
+                })
+                    .then(name => {
+                        if (!name) throw null;
+
+                        return fetch(`https://itunes.apple.com/search?term=${name}&entity=movie`);
+                    })
+                    .then(results => {
+                        return results.json();
+                    })
+                    .then(json => {
+                        const movie = json.results[0];
+
+                        if (!movie) {
+                            return swal("No movie was found!");
+                        }
+
+                        const name = movie.trackName;
+                        const imageURL = movie.artworkUrl100;
+
+                        swal({
+                            title: "Top result:",
+                            text: name,
+                            icon: imageURL,
+                        });
+                    })
+                    .catch(err => {
+                        if (err) {
+                            swal("Oh noes!", "The AJAX request failed!", "error");
+                        } else {
+                            swal.stopLoading();
+                            swal.close();
+                        }
+                    });
             }
 
         })
-        console.log("ok")
     }
     function onPassword(e) {
-        // console.log(e.target.value)
         setPassword(e.target.value)
 
     }
     function onUserName(e) {
-        // console.log(e.target.value)
         setUserName(e.target.value)
 
     }
@@ -60,7 +93,7 @@ const Home = () => {
         <div>
             <h1>Welcome to my cool application</h1>
             {/*<button onClick={redirectHome}>start application</button>*/}
-            <Link to='/home' > start application </Link>
+            {/*<Link to='/home' > start application </Link>*/}
             <form>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Login</label>

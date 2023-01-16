@@ -6,11 +6,12 @@ import App from "./App";
 
 
 function Pages() {
+    let callback
     return (
     <Router>
         <Routes>
-            <Route path='/' element={<Home/>}/>
-            <Route path='/home' element={<App/>}/>
+            <Route path='/' element={<Home parentCallback={callback}/>}/>
+            <Route path='/home' element={<App number = {callback}/>}/>
         </Routes>
     </Router>
     )

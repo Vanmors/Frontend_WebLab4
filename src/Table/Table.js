@@ -1,20 +1,27 @@
 import React, {useEffect, useState} from "react";
-import {forEach} from "react-bootstrap/ElementChildren";
 
+
+setTimeout = (Table, 1000)
 export default function Table() {
     const [points, setPoints] = useState([])
     const [count, setCount] = useState(0)
 
 
     useEffect(()=>{
-        fetch("http://localhost:21900/getAll")
+        fetch("http://localhost:21900/getAll", {
+            headers: {
+                "Authorization": "Basic " + btoa("user:gg")
+            }
+        })
             .then(res=>res.json())
             .then((result)=>{
                     setPoints(result);
+
                 }
             )
         // setPoints([{x: 1, y: 2, r: 4, hit: "true" }, {x: 2, y: 2, r: 4, hit: "false" }])
     },[])
+
     return (
         <div>
 
@@ -34,11 +41,11 @@ export default function Table() {
                         <tbody>
                         {points.map((point) =>
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <th scope="row">{count}</th>
                                     <td>{point.x}</td>
                                     <td>{point.y}</td>
                                     <td>{point.r}</td>
-                                    <td>{point.hit}</td>
+                                    <td>{point.hit.toString()}</td>
                                 </tr>
                             )}
 
