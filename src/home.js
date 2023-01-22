@@ -3,13 +3,13 @@ import Nav from 'react-bootstrap/Nav';
 import NavMenu from 'react-bootstrap/Navbar';
 import NavLink from 'react-bootstrap/NavLink';
 import {Link, useNavigate, useNavigation} from "react-router-dom";
-import { redirect } from 'react-router'
+import {redirect} from 'react-router'
 import axios from "axios";
 import swal from "sweetalert";
+import "./Registration.css";
 
 
-
-const Home = ({ parentCallback }) => {
+const Home = ({parentCallback}) => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -17,10 +17,11 @@ const Home = ({ parentCallback }) => {
     const passwordContext = createContext(password)
 
     parentCallback = 3
+
     const onSubmit = (e) => {
         // e.preventDefault()
         let auth = {userName, password}
-        let pointTest = {x:0, y:0, r:0, hit:false}
+        let pointTest = {x: 0, y: 0, r: 0, hit: false}
         console.log(auth)
 
         fetch("http://localhost:21900/", {
@@ -81,14 +82,19 @@ const Home = ({ parentCallback }) => {
 
         })
     }
+
     function onPassword(e) {
         setPassword(e.target.value)
 
     }
+
     function onUserName(e) {
         setUserName(e.target.value)
 
     }
+
+
+
     return (
         <div>
             <h1>Welcome to my cool application</h1>
@@ -99,15 +105,12 @@ const Home = ({ parentCallback }) => {
                     <label htmlFor="exampleInputEmail1" className="form-label">Login</label>
                     <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                            value={userName} onChange={onUserName}/>
-                        {/*<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>*/}
+                    {/*<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>*/}
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label" >Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" value={password} onChange={onPassword}/>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" value={password}
+                           onChange={onPassword}/>
                 </div>
                 <button type="submit" class="btn btn-primary" onClick={onSubmit}>Submit</button>
             </form>

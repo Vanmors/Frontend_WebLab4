@@ -89,7 +89,7 @@ function Canvas() {
         let x = (e.clientX - rect.left); //x position within the element.
         let y = (e.clientY - rect.top) ;  //y position within the element.
         console.log("Left? : " + x + " ; Top? : " + y + ".");
-        ctx.beginPath();
+        ctx.beginPath()
         ctx.fillRect(x+20, y+40, 2, 2);
         ctx.stroke();
     }

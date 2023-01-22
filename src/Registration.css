@@ -1,0 +1,23 @@
+.login-page {
+    text-align: center;
+    /*padding: 10px;*/
+    /*margin-bottom: 20px;*/
+    /*margin-left: 40%;*/
+    margin-top: 10%;
+    /*width: 23%;*/
+    /*height: 15px;*/
+    /*border: 1px solid #ff8c00;*/
+}
+input[type = password]{
+    width: 30%;
+    margin: auto;
+
+}
+#username{
+    width: 30%;
+    margin: auto;
+}
+
+/*.row justify-content-md-center h-100{*/
+/*    border: 100px;*/
+/*}*/

@@ -1,26 +1,30 @@
 import React, {useEffect, useState} from "react";
 
 
-setTimeout = (Table, 1000)
 export default function Table() {
     const [points, setPoints] = useState([])
-    const [count, setCount] = useState(0)
 
 
-    useEffect(()=>{
+    setTimeout(() => Table, 1000)
+
+    function updateTable() {
         fetch("http://localhost:21900/getAll", {
             headers: {
                 "Authorization": "Basic " + btoa("user:gg")
             }
         })
-            .then(res=>res.json())
-            .then((result)=>{
+            .then(res => res.json())
+            .then((result) => {
                     setPoints(result);
 
                 }
             )
-        // setPoints([{x: 1, y: 2, r: 4, hit: "true" }, {x: 2, y: 2, r: 4, hit: "false" }])
-    },[])
+    }
+
+    useEffect(()=>{
+        setInterval(() => updateTable(), 1000)
+        } , []
+    )
 
     return (
         <div>
@@ -39,15 +43,15 @@ export default function Table() {
                         </tr>
                         </thead>
                         <tbody>
-                        {points.map((point) =>
-                                <tr>
-                                    <th scope="row">{count}</th>
-                                    <td>{point.x}</td>
-                                    <td>{point.y}</td>
-                                    <td>{point.r}</td>
-                                    <td>{point.hit.toString()}</td>
-                                </tr>
-                            )}
+                        {points.map((point, count) =>
+                            <tr>
+                                <th scope="row">{count+1}</th>
+                                <td>{point.x}</td>
+                                <td>{point.y}</td>
+                                <td>{point.r}</td>
+                                <td>{point.hit.toString()}</td>
+                            </tr>
+                        )}
 
                         </tbody>
                     </table>
