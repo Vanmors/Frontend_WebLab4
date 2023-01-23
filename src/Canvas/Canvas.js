@@ -36,48 +36,48 @@ function Canvas() {
 // ctx.fillRect(10, 10, 100, 100);
         ctx.lineWidth = 1.0; // Ширина линии
         ctx.beginPath(); // Запускает путь
-        ctx.moveTo(127.5, 5); // Рисуем ось
-        ctx.lineTo(127.5, 245);
-        ctx.moveTo(5, 127.5);
-        ctx.lineTo(245, 127.5);
+        ctx.moveTo(198.9, 7.8); // Рисуем ось
+        ctx.lineTo(198.9, 382.2);
+        ctx.moveTo(7.8, 198.9);
+        ctx.lineTo(382.2, 198.9);
 
-        ctx.fillRect(127.5, 127.5, 97.5, -50) // Рисуем и закршиваем прямоугльник
+        ctx.fillRect(198.9, 198.9, 152.1, -78) // Рисуем и закршиваем прямоугльник
         ctx.stroke(); // Делаем контур
 
         ctx.beginPath();
-        ctx.moveTo(225, 127.5); // Рисуем и закршиваем треугольник
-        ctx.lineTo(127.5, 222.5);
-        ctx.lineTo(127.5, 127.5);
-        ctx.lineTo(225, 127.5);
+        ctx.moveTo(351, 198.9); // Рисуем и закршиваем треугольник
+        ctx.lineTo(198.9, 347.1);
+        ctx.lineTo(198.9, 198.9);
+        ctx.lineTo(351, 198.9);
         ctx.fill();
         ctx.stroke();
 
 
         ctx.beginPath();
-        ctx.arc(127.5, 127.5, 100, Math.PI, -Math.PI / 2) // Рисуем и закршиваем четверть круга
-        ctx.moveTo(127.5, 27.5);
-        ctx.lineTo(127.5, 127.5);
-        ctx.lineTo(27.5, 127.5);
+        ctx.arc(198.9, 198.9, 156, Math.PI, -Math.PI / 2) // Рисуем и закршиваем четверть круга
+        ctx.moveTo(198.9, 42.9);
+        ctx.lineTo(198.9, 198.9);
+        ctx.lineTo(42.9, 198.9);
 
         ctx.fill();
         ctx.stroke();
 
 
-        ctx.moveTo(125, 27.5); // Вставляем R на график
-        ctx.lineTo(130, 27.5);
+        ctx.moveTo(195, 42.9); // Вставляем R на график
+        ctx.lineTo(202.8, 42.9);
         ctx.fillStyle = 'black'; // Задаём чёрный цвет для линий
         ctx.font = "15px Verdana";
-        ctx.fillText("R", 130, 27.5)
-        ctx.moveTo(225, 125);
-        ctx.lineTo(225, 130);
+        ctx.fillText("R", 202.8, 42.9)
+        ctx.moveTo(351, 195);
+        ctx.lineTo(351, 202.8);
         ctx.font = "15px Verdana";
-        ctx.fillText("R", 227.5, 125)
-        ctx.moveTo(125, 222.5);
-        ctx.lineTo(130, 222.5);
-        ctx.fillText("-R", 145, 230)
-        ctx.moveTo(27.5, 125);
-        ctx.lineTo(27.5, 130);
-        ctx.fillText("-R", 7.5, 125)
+        ctx.fillText("R", 354.9, 195)
+        ctx.moveTo(195, 347.1);
+        ctx.lineTo(202.8, 347.1);
+        ctx.fillText("-R", 226.2, 358.8)
+        ctx.moveTo(42.9, 195);
+        ctx.lineTo(42.9, 202.8);
+        ctx.fillText("-R", 11.7, 195)
         ctx.stroke(); // Делаем контур
     }
 
@@ -90,14 +90,15 @@ function Canvas() {
         let y = (e.clientY - rect.top) ;  //y position within the element.
         console.log("Left? : " + x + " ; Top? : " + y + ".");
         ctx.beginPath()
-        ctx.fillRect(x+20, y+40, 2, 2);
+        ctx.fillRect(x, y,2, 2);
         ctx.stroke();
+        //1.56
     }
 
 
     return (
         <div className="App">
-            <canvas id="canvas" onClick={clickCanvas} ref={canvas} width={250} height={250}></canvas>
+            <canvas id="canvas" onClick={clickCanvas} ref={canvas} width={390} height={390}></canvas>
         </div>
     );
 }

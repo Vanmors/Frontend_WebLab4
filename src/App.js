@@ -51,7 +51,11 @@ function App(props) {
                 "Authorization": "Basic " + btoa(props.auth.userName + ":" + props.auth.password)
             },
             body: JSON.stringify(point)
-        }).then(r => console.log(r.headers))
+        }).then(r => {
+            console.log(r.headers)
+            if (r.status === 401){
+                swal("Need Authorization", "", "error")
+            }})
         console.log("ok")
     }
 

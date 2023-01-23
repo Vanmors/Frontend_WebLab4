@@ -26,7 +26,7 @@ const Registration = () => {
             if (r.status === 200) {
                 navigate("/")
             } else {
-                swal("Some problems")
+                swal("User with this name already exists", "", "error")
             }
                     });
     }
