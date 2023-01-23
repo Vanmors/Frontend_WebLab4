@@ -6,7 +6,7 @@ import "./styleForInput.css"
 import Canvas from "./Canvas/Canvas";
 import "./Canvas/styleForCanvas.css"
 import swal from 'sweetalert';
-
+import userName from './home'
 
 // function giveToParent() {
 //     props.onSetParam(321)
@@ -19,7 +19,8 @@ function App(props) {
     const [y, setY] = useState(0);
     const [r, setR] = useState(0);
     let num = props.number;
-    console.log(num)
+    // console.log(num)
+    console.log(userName)
     function validateInput() {
         if (y > 3 || y < -3) {
             swal("incorrect data", "", "error").then((value) => {

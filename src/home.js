@@ -12,6 +12,7 @@ import "./Registration.css";
 const Home = ({parentCallback}) => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+
     const navigate = useNavigate();
     const userNameContext = createContext(userName)
     const passwordContext = createContext(password)
@@ -23,6 +24,7 @@ const Home = ({parentCallback}) => {
         let auth = {userName, password}
         let pointTest = {x: 0, y: 0, r: 0, hit: false}
         console.log(auth)
+
 
         fetch("http://localhost:21900/", {
             // mode: "no-cors",
@@ -93,14 +95,19 @@ const Home = ({parentCallback}) => {
 
     }
 
-
+    function RegPage(){
+        navigate('/registration')
+    }
 
     return (
         <div>
-            <h1>Welcome to my cool application</h1>
+
             {/*<button onClick={redirectHome}>start application</button>*/}
             {/*<Link to='/home' > start application </Link>*/}
             <form>
+                <div className='authorization'>
+                    <h1 id='name'>Welcome to my cool application</h1>
+                    <p></p>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Login</label>
                     <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -112,7 +119,12 @@ const Home = ({parentCallback}) => {
                     <input type="password" class="form-control" id="exampleInputPassword1" value={password}
                            onChange={onPassword}/>
                 </div>
+                    <div className='buttons'>
                 <button type="submit" class="btn btn-primary" onClick={onSubmit}>Submit</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="submit" id='RegButton' onClick={RegPage} className="btn btn-primary" >  Registration</button>
+                    </div>
+                </div>
             </form>
         </div>
     );

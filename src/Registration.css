@@ -21,3 +21,34 @@ input[type = password]{
 /*.row justify-content-md-center h-100{*/
 /*    border: 100px;*/
 /*}*/
+
+#RegButton{
+    /*margin-bottom: 20px;*/
+    /*margin-left: 40%;*/
+    /*margin-top: 10%;*/
+    /*margin-left: 20%;*/
+
+}
+
+.authorization{
+    text-align: center;
+}
+
+input[type = email]{
+    width: 30%;
+    margin: auto;
+
+}
+
+
+
+/*#name {*/
+/*    font-family: serif;*/
+/*    margin: 0px 550px;*/
+/*    !*color: green;*!*/
+/*    background: linear-gradient(to right, red, orange, black, green, cyan, blue, violet);*/
+/*    -webkit-background-clip: text;*/
+/*    -webkit-text-fill-color: transparent;*/
+/*    font-size: 60px;*/
+/*    !*line-height: 40px;*!*/
+/*}*/
