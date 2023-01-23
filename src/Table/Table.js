@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 
-export default function Table() {
+export default function Table(props) {
     const [points, setPoints] = useState([])
 
 
@@ -10,7 +10,7 @@ export default function Table() {
     function updateTable() {
         fetch("http://localhost:21900/getAll", {
             headers: {
-                "Authorization": "Basic " + btoa("user:gg")
+                "Authorization": "Basic " + btoa(props.auth.userName + ":" + props.auth.password)
             }
         })
             .then(res => res.json())

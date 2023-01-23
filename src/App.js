@@ -8,9 +8,7 @@ import "./Canvas/styleForCanvas.css"
 import swal from 'sweetalert';
 import userName from './home'
 
-// function giveToParent() {
-//     props.onSetParam(321)
-// }
+
 
 
 function App(props) {
@@ -18,9 +16,12 @@ function App(props) {
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [r, setR] = useState(0);
-    let num = props.number;
-    // console.log(num)
-    console.log(userName)
+
+
+
+    // console.log(props.auth.userName)
+    // console.log(props.auth.password)
+
     function validateInput() {
         if (y > 3 || y < -3) {
             swal("incorrect data", "", "error").then((value) => {
@@ -46,7 +47,8 @@ function App(props) {
             method: "POST",
             headers: {
                 "Content-Type": 'application/json',
-                "Authorization": "Basic " + btoa("user:gg")
+                // "Authorization": "Basic " + btoa("user:gg")
+                "Authorization": "Basic " + btoa(props.auth.userName + ":" + props.auth.password)
             },
             body: JSON.stringify(point)
         }).then(r => console.log(r.headers))
@@ -93,7 +95,6 @@ function App(props) {
                 </div>
                 <div className="col-6">
                     <div className="p-3">
-                        <div>{}</div>
                         <label htmlFor="X:">X:</label>
                         <input type="number" disabled={true} id="XInput" value={x}/>
                         <p/>
@@ -120,7 +121,7 @@ function App(props) {
                         </button>
                     </div>
                 </div>
-                <Table/>
+                <Table auth = {props.auth}/>
             </div>
             {/*</form>*/}
         </div>

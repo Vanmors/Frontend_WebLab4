@@ -9,21 +9,21 @@ import swal from "sweetalert";
 import "./Registration.css";
 
 
-const Home = ({parentCallback}) => {
+const Home = (props) => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
-    const userNameContext = createContext(userName)
-    const passwordContext = createContext(password)
 
-    parentCallback = 3
+
 
     const onSubmit = (e) => {
         // e.preventDefault()
         let auth = {userName, password}
         let pointTest = {x: 0, y: 0, r: 0, hit: false}
         console.log(auth)
+
+        props.onSetParam(auth)
 
 
         fetch("http://localhost:21900/", {
