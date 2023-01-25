@@ -56,7 +56,16 @@ function App(props) {
 
     const onSubmit = (e) => {
         // e.preventDefault()
-        let hit = false;
+        let hit;
+        if (((x * x + y * y) <= r * r && x <= 0 && y >= 0) ||
+            (y + x <= r && x >= 0 && y <= 0) ||
+            (y / 2 >= (x - r / 2) && x >= 0 && y >= 0)) {
+            hit = true
+        }
+        else {
+            hit = false
+        }
+
         let point = {x, y, r, hit}
         console.log(point)
 

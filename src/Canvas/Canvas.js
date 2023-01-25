@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, {useRef, useEffect} from 'react';
 import "./styleForCanvas.css"
 import App from "../App";
+import swal from "sweetalert";
 
 function Canvas(props) {
     const canvas = useRef();
@@ -15,16 +16,17 @@ function Canvas(props) {
 
         // get context of the canvas
         ctx = canvasEle.getContext("2d");
+        console.log(ctx)
     }, []);
 
     useEffect(() => {
-        drawLine({ x: 20, y: 20, x1: 20, y1: 100 });
+        drawLine({x: 20, y: 20, x1: 20, y1: 100});
 
-        drawLine({ x: 50, y: 50, x1: 200, y1: 100 }, { color: 'red' });
+        drawLine({x: 50, y: 50, x1: 200, y1: 100}, {color: 'red'});
 
-        drawLine({ x: 300, y: 250, x1: 260, y1: 70 }, { color: 'green', width: 5 });
+        drawLine({x: 300, y: 250, x1: 260, y1: 70}, {color: 'green', width: 5});
 
-        drawLine({ x: 70, y: 240, x1: 160, y1: 120 }, { color: 'blue' });
+        drawLine({x: 70, y: 240, x1: 160, y1: 120}, {color: 'blue'});
     }, []);
 
     // draw a line
@@ -86,25 +88,79 @@ function Canvas(props) {
 
         let rect = e.target.getBoundingClientRect();
         let xPixels = (e.clientX - rect.left); //x position within the element.
-        let yPixels = (e.clientY - rect.top) ;  //y position within the element.
+        let yPixels = (e.clientY - rect.top);  //y position within the element.
         console.log("Left? : " + xPixels + " ; Top? : " + yPixels + ".");
-        let r = props.r
+        let rIn = props.r
+        let r = rIn;
         // centre = 195
         // right R: x = 350; y = 195
         // left R: x = 42; y = 195
         // up R: x = 195; y = 42
         // down x = 195; y = 350
+        console.log(r)
         let x;
         let y;
 
-        // if (xPixels > 195){
-        //     x = (xPixels - 195) * (r / )
-        // }
+        if (xPixels > 195) {
+            x = (xPixels - 195) * (r / 155)
+        } else if (xPixels === 195) {
+            x = 0;
+        } else {
+            x = (xPixels - 195) * (r / 155);
+        }
+
+        if (yPixels > 195) {
+            y = (yPixels - 195) * (r / 155) * -1;
+        } else if (yPixels === 195) {
+            y = 0;
+        } else {
+            y = (yPixels - 195) * (r / 155) * -1;
+        }
+        //
+        let hit
+        if (((x * x + y * y) <= r * r && x <= 0 && y >= 0) ||
+            (y + x <= r && x >= 0 && y <= 0) ||
+            (y / 2 >= (x - r / 2) && x >= 0 && y >= 0)){
+            const canvasEle = canvas.current;
+
+            ctx = canvasEle.getContext("2d");
+            ctx.fillStyle = "green"
+            ctx.beginPath()
+            ctx.fillRect(xPixels, yPixels, 4, 4);
+            ctx.stroke();
+            hit = true
+        }
+        else {
+            const canvasEle = canvas.current;
+
+            ctx = canvasEle.getContext("2d");
+            ctx.fillStyle = "red"
+            ctx.beginPath()
+            ctx.fillRect(xPixels, yPixels, 4, 4);
+            ctx.stroke();
+            hit = false
+        }
+        console.log(Math.round(x))
+        console.log(y)
+
+        let point = {x, y, r, hit}
 
 
-        ctx.beginPath()
-        ctx.fillRect(xPixels, yPixels,2, 2);
-        ctx.stroke();
+        fetch("http://localhost:21900/", {
+            // mode: "no-cors",
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+                // "Authorization": "Basic " + btoa("user:gg")
+                "Authorization": "Basic " + btoa(localStorage.getItem("userName") + ":" + localStorage.getItem("password"))
+            },
+            body: JSON.stringify(point)
+        }).then(r => {
+            console.log(r.headers)
+            if (r.status === 401){
+                swal("Need Authorization", "", "error")
+            }})
+        console.log("ok")
         //1.56
     }
 
