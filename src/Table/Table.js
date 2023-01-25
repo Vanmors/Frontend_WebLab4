@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from "react";
 
 
-export default function Table(props) {
+export default function Table() {
     const [points, setPoints] = useState([])
 
 
-    setTimeout(() => Table, 1000)
 
     function updateTable() {
         fetch("http://localhost:21900/getAll", {
             headers: {
-                "Authorization": "Basic " + btoa(props.auth.userName + ":" + props.auth.password)
+                "Authorization": "Basic " + btoa(localStorage.getItem("userName") + ":" + localStorage.getItem("password"))
             }
         })
             .then(res => res.json())

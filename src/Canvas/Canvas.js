@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import "./styleForCanvas.css"
 import App from "../App";
 
-function Canvas() {
+function Canvas(props) {
     const canvas = useRef();
     let ctx = null;
 
@@ -83,14 +83,27 @@ function Canvas() {
 
 
     function clickCanvas(e) {
-        let r = document.getElementById("RInput").value;
 
         let rect = e.target.getBoundingClientRect();
-        let x = (e.clientX - rect.left); //x position within the element.
-        let y = (e.clientY - rect.top) ;  //y position within the element.
-        console.log("Left? : " + x + " ; Top? : " + y + ".");
+        let xPixels = (e.clientX - rect.left); //x position within the element.
+        let yPixels = (e.clientY - rect.top) ;  //y position within the element.
+        console.log("Left? : " + xPixels + " ; Top? : " + yPixels + ".");
+        let r = props.r
+        // centre = 195
+        // right R: x = 350; y = 195
+        // left R: x = 42; y = 195
+        // up R: x = 195; y = 42
+        // down x = 195; y = 350
+        let x;
+        let y;
+
+        // if (xPixels > 195){
+        //     x = (xPixels - 195) * (r / )
+        // }
+
+
         ctx.beginPath()
-        ctx.fillRect(x, y,2, 2);
+        ctx.fillRect(xPixels, yPixels,2, 2);
         ctx.stroke();
         //1.56
     }

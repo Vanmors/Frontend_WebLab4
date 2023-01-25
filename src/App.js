@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Navbar from "./Navibar/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css"
 import Table from "./Table/Table";
@@ -7,6 +7,7 @@ import Canvas from "./Canvas/Canvas";
 import "./Canvas/styleForCanvas.css"
 import swal from 'sweetalert';
 import userName from './home'
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -16,11 +17,28 @@ function App(props) {
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [r, setR] = useState(0);
+    const navigate = useNavigate();
+
+    console.log(props.auth.userName)
+    console.log(props.auth.password)
 
 
 
-    // console.log(props.auth.userName)
-    // console.log(props.auth.password)
+
+
+    useEffect(()=>{
+        if (props.auth.userName !== undefined || props.auth.password !== undefined){
+            window.location.reload();
+            localStorage.setItem("userName", props.auth.userName)
+            localStorage.setItem("password", props.auth.password)
+            if (localStorage.getItem("userName") === ""){
+                navigate("/")
+            }
+        }
+        } , []
+    )
+
+
 
     function validateInput() {
         if (y > 3 || y < -3) {
@@ -48,7 +66,7 @@ function App(props) {
             headers: {
                 "Content-Type": 'application/json',
                 // "Authorization": "Basic " + btoa("user:gg")
-                "Authorization": "Basic " + btoa(props.auth.userName + ":" + props.auth.password)
+                "Authorization": "Basic " + btoa(localStorage.getItem("userName") + ":" + localStorage.getItem("password"))
             },
             body: JSON.stringify(point)
         }).then(r => {
@@ -64,6 +82,12 @@ function App(props) {
         // console.log(e.target.value)
         setX(e.target.value)
 
+    }
+
+    function logout(){
+        localStorage.setItem("userName", "")
+        localStorage.setItem("password", "")
+        navigate("/")
     }
 
     function onChangeY(e) {
@@ -94,11 +118,14 @@ function App(props) {
             {/*<form onSubmit={(e) => onSubmit(e)}>*/}
             <div className="row g-2">
                 <div className="col-6">
-                    <div id="canvas" className="p-3"><Canvas/></div>
+                    <div id="canvas" className="p-3"><Canvas r = {r}/></div>
                     {/*<div id="canvas" className="p-3"><Rectangle/></div>*/}
                 </div>
                 <div className="col-6">
                     <div className="p-3">
+                        Name: {localStorage.getItem("userName")} &nbsp;
+                        <button type="submit" className="btn btn-primary" onClick={logout}>Logout</button>
+                        <p></p>
                         <label htmlFor="X:">X:</label>
                         <input type="number" disabled={true} id="XInput" value={x}/>
                         <p/>
@@ -125,7 +152,7 @@ function App(props) {
                         </button>
                     </div>
                 </div>
-                <Table auth = {props.auth}/>
+                <Table/>
             </div>
             {/*</form>*/}
         </div>
