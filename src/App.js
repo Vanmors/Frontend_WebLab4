@@ -58,8 +58,8 @@ function App(props) {
         // e.preventDefault()
         let hit;
         if (((x * x + y * y) <= r * r && x <= 0 && y >= 0) ||
-            (y + x <= r && x >= 0 && y <= 0) ||
-            (y / 2 >= (x - r / 2) && x >= 0 && y >= 0)) {
+            (x - y <= r && x >= 0 && y <= 0) ||
+            (2 * y <= r && x <= r && x >= 0 && y >= 0)) {
             hit = true
         }
         else {

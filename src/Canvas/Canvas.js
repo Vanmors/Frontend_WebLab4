@@ -119,18 +119,17 @@ function Canvas(props) {
         //
         let hit
         if (((x * x + y * y) <= r * r && x <= 0 && y >= 0) ||
-            (y + x <= r && x >= 0 && y <= 0) ||
-            (y / 2 >= (x - r / 2) && x >= 0 && y >= 0)){
+            (x - y <= r && x >= 0 && y <= 0) ||
+            (2 * y <= r && x <= r && x >= 0 && y >= 0)) {
             const canvasEle = canvas.current;
 
             ctx = canvasEle.getContext("2d");
-            ctx.fillStyle = "green"
+            ctx.fillStyle = "black"
             ctx.beginPath()
             ctx.fillRect(xPixels, yPixels, 4, 4);
             ctx.stroke();
             hit = true
-        }
-        else {
+        } else {
             const canvasEle = canvas.current;
 
             ctx = canvasEle.getContext("2d");
@@ -140,7 +139,7 @@ function Canvas(props) {
             ctx.stroke();
             hit = false
         }
-        console.log(Math.round(x))
+        console.log(x)
         console.log(y)
 
         let point = {x, y, r, hit}
@@ -157,9 +156,10 @@ function Canvas(props) {
             body: JSON.stringify(point)
         }).then(r => {
             console.log(r.headers)
-            if (r.status === 401){
+            if (r.status === 401) {
                 swal("Need Authorization", "", "error")
-            }})
+            }
+        })
         console.log("ok")
         //1.56
     }
