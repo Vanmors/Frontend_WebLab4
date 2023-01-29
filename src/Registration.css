@@ -1,12 +1,7 @@
 .login-page {
     text-align: center;
-    /*padding: 10px;*/
-    /*margin-bottom: 20px;*/
-    /*margin-left: 40%;*/
     margin-top: 10%;
-    /*width: 23%;*/
-    /*height: 15px;*/
-    /*border: 1px solid #ff8c00;*/
+
 }
 input[type = password]{
     width: 30%;
@@ -18,17 +13,7 @@ input[type = password]{
     margin: auto;
 }
 
-/*.row justify-content-md-center h-100{*/
-/*    border: 100px;*/
-/*}*/
 
-#RegButton{
-    /*margin-bottom: 20px;*/
-    /*margin-left: 40%;*/
-    /*margin-top: 10%;*/
-    /*margin-left: 20%;*/
-
-}
 
 .authorization{
     text-align: center;
@@ -40,15 +25,3 @@ input[type = email]{
 
 }
 
-
-
-/*#name {*/
-/*    font-family: serif;*/
-/*    margin: 0px 550px;*/
-/*    !*color: green;*!*/
-/*    background: linear-gradient(to right, red, orange, black, green, cyan, blue, violet);*/
-/*    -webkit-background-clip: text;*/
-/*    -webkit-text-fill-color: transparent;*/
-/*    font-size: 60px;*/
-/*    !*line-height: 40px;*!*/
-/*}*/

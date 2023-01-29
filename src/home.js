@@ -1,10 +1,5 @@
-import React, {createContext, useContext, useState} from 'react';
-import Nav from 'react-bootstrap/Nav';
-import NavMenu from 'react-bootstrap/Navbar';
-import NavLink from 'react-bootstrap/NavLink';
-import {Link, useNavigate, useNavigation} from "react-router-dom";
-import {redirect} from 'react-router'
-import axios from "axios";
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import swal from "sweetalert";
 import "./Registration.css";
 
@@ -16,18 +11,21 @@ const Home = (props) => {
     const navigate = useNavigate();
 
 
-
-    const onSubmit = (e) => {
-        // e.preventDefault()
+    useEffect(()=>{
+                if (localStorage.getItem("userName") !== ""){
+                    navigate("/home")
+                }
+        }
+    )
+    
+    const onSubmit = () => {
         let auth = {userName, password}
         let pointTest = {x: 0, y: 0, r: 0, hit: false}
-        console.log(auth)
 
         props.onSetParam(auth)
 
 
         fetch("http://localhost:21900/", {
-            // mode: "no-cors",
             method: "POST",
             headers: {
                 "Content-Type": 'application/json',
@@ -39,7 +37,6 @@ const Home = (props) => {
             if (r.status === 200) {
                 navigate("/home")
             } else {
-                // swal("Wrong password")
                 swal({
                     text: 'Wrong password, but you can search for a movie!',
                     content: "input",
@@ -102,8 +99,6 @@ const Home = (props) => {
     return (
         <div>
 
-            {/*<button onClick={redirectHome}>start application</button>*/}
-            {/*<Link to='/home' > start application </Link>*/}
             <form>
                 <div className='authorization'>
                     <h1 id='name'>Welcome to my cool application</h1>

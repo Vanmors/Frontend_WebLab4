@@ -1,7 +1,7 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import "./styleForCanvas.css"
-import App from "../App";
 import swal from "sweetalert";
+
 
 function Canvas(props) {
     const canvas = useRef();
@@ -9,12 +9,8 @@ function Canvas(props) {
 
     // initialize the canvas context
     useEffect(() => {
-        // dynamically assign the width and height to canvas
-        const canvasEle = canvas.current;
-        // canvasEle.width = canvasEle.clientWidth;
-        // canvasEle.height = canvasEle.clientHeight;
 
-        // get context of the canvas
+        const canvasEle = canvas.current;
         ctx = canvasEle.getContext("2d");
         console.log(ctx)
     }, []);
@@ -35,7 +31,6 @@ function Canvas(props) {
         const {color = 'black', width = 1} = style;
 
         ctx.fillStyle = '#3399ff'; // Задаём чёрный цвет для линий
-// ctx.fillRect(10, 10, 100, 100);
         ctx.lineWidth = 1.0; // Ширина линии
         ctx.beginPath(); // Запускает путь
         ctx.moveTo(198.9, 7.8); // Рисуем ось
@@ -89,6 +84,7 @@ function Canvas(props) {
         let rect = e.target.getBoundingClientRect();
         let xPixels = (e.clientX - rect.left); //x position within the element.
         let yPixels = (e.clientY - rect.top);  //y position within the element.
+
         console.log("Left? : " + xPixels + " ; Top? : " + yPixels + ".");
         let rIn = props.r
         let r = rIn;
@@ -143,7 +139,7 @@ function Canvas(props) {
         console.log(y)
 
         let point = {x, y, r, hit}
-
+        console.log(point)
 
         fetch("http://localhost:21900/", {
             // mode: "no-cors",
@@ -164,11 +160,74 @@ function Canvas(props) {
         //1.56
     }
 
+    const [points, setPoints] = useState([])
+
+    function updateTable() {
+        fetch("http://localhost:21900/getAll", {
+            headers: {
+                "Authorization": "Basic " + btoa(localStorage.getItem("userName") + ":" + localStorage.getItem("password"))
+            }
+        })
+            .then(res => res.json())
+            .then((result) => {
+                    setPoints(result);
+
+                }
+            )
+    }
+
+    function Iterator(){
+
+    }
+
+    useEffect(() => {
+            setInterval(() => updateTable(), 1000)
+            setInterval(() => Iterator(), 1000)
+        }, []
+    )
+
 
     return (
         <div className="App">
             <canvas id="canvas" onClick={clickCanvas} ref={canvas} width={390} height={390}></canvas>
+            {points.map((point, key) => {
+                    let rIn = props.r
+                    let r = rIn;
+                    let y = Number(point.y.toFixed(3))
+                    // console.log(r)
+                    // console.log(point.r)
+                    if (point.r == r) {
+                        let xPixels
+                        let yPixels
+                        if (point.x === 0) {
+                            xPixels = 195
+                        } else if (point.x > 0) {
+                            xPixels = point.x / (r / 155) + 195
+                        } else if (point.x < 0) {
+                            xPixels = point.x / (r / 155) + 195
+                        }
+                        if (y === 0) {
+                            yPixels = 195
+                        } else if (y > 0) {
+                            yPixels = y / ((r / 155) * -1) + 195
+                        } else if (y < 0) {
+                            yPixels = y / ((r / 155) * -1) + 195
+                        }
+                        // console.log(point)
+                        // console.log(xPixels)
+                        // console.log(yPixels)
+
+                        const canvasEle = canvas.current;
+                        ctx = canvasEle.getContext("2d");
+                        ctx.fillStyle = "black"
+                        ctx.beginPath()
+                        ctx.fillRect(xPixels, yPixels, 4, 4);
+                        ctx.stroke();
+                    }
+                }
+            )}
         </div>
+
     );
 }
 

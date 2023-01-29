@@ -43,10 +43,10 @@ export default function Table() {
                         </thead>
                         <tbody>
                         {points.map((point, count) =>
-                            <tr>
+                            <tr key={count}>
                                 <th scope="row">{count+1}</th>
-                                <td>{point.x}</td>
-                                <td>{point.y}</td>
+                                <td>{Number(point.x.toFixed(3))}</td>
+                                <td>{Number(point.y.toFixed(3))}</td>
                                 <td>{point.r}</td>
                                 <td>{point.hit.toString()}</td>
                             </tr>

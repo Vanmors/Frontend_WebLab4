@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import Navbar from "./Navibar/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css"
 import Table from "./Table/Table";
@@ -6,14 +6,12 @@ import "./styleForInput.css"
 import Canvas from "./Canvas/Canvas";
 import "./Canvas/styleForCanvas.css"
 import swal from 'sweetalert';
-import userName from './home'
 import {useNavigate} from "react-router-dom";
 
 
 
 
 function App(props) {
-    const [value, setValue] = useState("");
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [r, setR] = useState(0);
@@ -35,27 +33,11 @@ function App(props) {
                 navigate("/")
             }
         }
-        } , []
+        }
     )
 
 
-
-    function validateInput() {
-        if (y > 3 || y < -3) {
-            swal("incorrect data", "", "error").then((value) => {
-                swal("Data must be:",
-                    `X: (-3 ... 5)
-                Y: (-3 ... 3)
-                Z: (-3 ... 5)`);
-            });
-            return false
-        } else {
-            return true
-        }
-    }
-
-    const onSubmit = (e) => {
-        // e.preventDefault()
+    const onSubmit = () => {
         let hit;
         if (((x * x + y * y) <= r * r && x <= 0 && y >= 0) ||
             (x - y <= r && x >= 0 && y <= 0) ||
@@ -70,11 +52,9 @@ function App(props) {
         console.log(point)
 
         fetch("http://localhost:21900/", {
-            // mode: "no-cors",
             method: "POST",
             headers: {
                 "Content-Type": 'application/json',
-                // "Authorization": "Basic " + btoa("user:gg")
                 "Authorization": "Basic " + btoa(localStorage.getItem("userName") + ":" + localStorage.getItem("password"))
             },
             body: JSON.stringify(point)
@@ -82,14 +62,15 @@ function App(props) {
             console.log(r.headers)
             if (r.status === 401){
                 swal("Need Authorization", "", "error")
+                navigate("/")
             }})
         console.log("ok")
     }
 
 
     function onChangeX(e) {
-        // console.log(e.target.value)
         setX(e.target.value)
+        console.log(x)
 
     }
 
@@ -100,7 +81,6 @@ function App(props) {
     }
 
     function onChangeY(e) {
-        // console.log(e.target.value)
         setY(e.target.value)
         if (y >= 3 || y <= -3) {
 
@@ -115,7 +95,6 @@ function App(props) {
     }
 
     function onChangeR(e) {
-        // console.log(e.target.value)
         setR(e.target.value)
     }
 
@@ -124,11 +103,9 @@ function App(props) {
         <div className="App">
 
             <Navbar/>
-            {/*<form onSubmit={(e) => onSubmit(e)}>*/}
             <div className="row g-2">
                 <div className="col-6">
                     <div id="canvas" className="p-3"><Canvas r = {r}/></div>
-                    {/*<div id="canvas" className="p-3"><Rectangle/></div>*/}
                 </div>
                 <div className="col-6">
                     <div className="p-3">
@@ -141,7 +118,7 @@ function App(props) {
                         <input type="range" id="XRange" name="X"
                                min="-3" max="5" onChange={onChangeX} value={x}/>
                         <p/>
-                        <label htmlFor="R:">Y: {value}</label>
+                        <label htmlFor="R:">Y: </label>
                         <p/>
                         <input name="Y" type={"number"} value={y} onChange={onChangeY}
                                placeholder="(-3 ... 3)"
@@ -163,7 +140,6 @@ function App(props) {
                 </div>
                 <Table/>
             </div>
-            {/*</form>*/}
         </div>
 
     );

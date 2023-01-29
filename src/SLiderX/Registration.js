@@ -8,13 +8,13 @@ const Registration = () => {
     const navigate = useNavigate();
 
 
-    const onSubmit = (e) => {
-        // e.preventDefault()
+    const onSubmit = () => {
         let auth = {userName, password}
         console.log(auth)
 
 
         fetch("http://localhost:21900/registration", {
+        // fetch("http://127.0.0.1:21900/WebLab/registration", {
             // mode: "no-cors",
             method: "POST",
             headers: {
